@@ -4,7 +4,7 @@ MonoPunk is a cross-platform 2D game engine built on top of MonoGame. It aims to
 
 The engine is heavily inspired by [HaxePunk](https://haxepunk.com/), an engine heavily inspired by [FlashPunk](http://useflashpunk.net/).
 
-Features
+Features:
 * __Entity__: Scene/Entity/Component system
 * __Debug__: Debug view that shows hitboxes and can track variables (press Oem Tilde to show)
 * __Input__: Virtual input to keyboard/gamepad.
@@ -15,3 +15,5 @@ Features
 * __TilEd__: TilEd map import based on [MonoGameExtended] (https://github.com/craftworkgames/MonoGame.Extended)
 * __BitmapFont__: Bitmap font import based on [MonoGameExtended] (https://github.com/craftworkgames/MonoGame.Extended)
 * __Utilities__: Vector2 extensions, float based math, logging, ...
+
+The engine is provided as is, without documentation/support. The best place to start would be the MonoPunk.TestBed project which shows some features of the engine and can be used as a starting project.
