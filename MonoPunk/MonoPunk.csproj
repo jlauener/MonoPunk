@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2E765F33-B9AD-4535-A1CA-C5B3B4EB9A5C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MonoPunk</RootNamespace>
+    <AssemblyName>MonoPunk</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MonoGamePlatform>DesktopGL</MonoGamePlatform>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;LINUX</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>
+    </ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Source\Asset.cs" />
+    <Compile Include="Source\Component.cs" />
+    <Compile Include="Source\Engine.cs" />
+    <Compile Include="Source\Entity.cs" />
+    <Compile Include="Source\Gfx\Animator.cs" />
+    <Compile Include="Source\Gfx\Backdrop.cs" />
+    <Compile Include="Source\Gfx\BlinkingLabel.cs" />
+    <Compile Include="Source\Gfx\TileSprite.cs" />
+    <Compile Include="Source\Gfx\ValueBar.cs" />
+    <Compile Include="Source\Gfx\RectBar.cs" />
+    <Compile Include="Source\Gfx\Bar.cs" />
+    <Compile Include="Source\Map\GridCollider.cs" />
+    <Compile Include="Source\MonoGame.Extended\BitmapFont\BitmapFont.cs" />
+    <Compile Include="Source\MonoGame.Extended\BitmapFont\BitmapFontExtensions.cs" />
+    <Compile Include="Source\MonoGame.Extended\BitmapFont\BitmapFontReader.cs" />
+    <Compile Include="Source\MonoGame.Extended\BitmapFont\BitmapFontRegion.cs" />
+    <Compile Include="Source\Gfx\Label.cs" />
+    <Compile Include="Source\Gfx\NinePatch.cs" />
+    <Compile Include="Source\Gfx\Shape.cs" />
+    <Compile Include="Source\Gfx\Sprite.cs" />
+    <Compile Include="Source\Gfx\Tilemap.cs" />
+    <Compile Include="Source\Glide\Ease.cs" />
+    <Compile Include="Source\Glide\GlideInfo.cs" />
+    <Compile Include="Source\Glide\Lerper.cs" />
+    <Compile Include="Source\Glide\Tween.cs" />
+    <Compile Include="Source\Glide\Tweener.cs" />
+    <Compile Include="Source\Log.cs" />
+    <Compile Include="Source\Input.cs" />
+    <Compile Include="Source\MonoGame.Extended\Camera2D.cs" />
+    <Compile Include="Source\MonoGame.Extended\ColorHelper.cs" />
+    <Compile Include="Source\MonoGame.Extended\ContentManagerExtensions.cs" />
+    <Compile Include="Source\MonoGame.Extended\ContentReaderExtensions.cs" />
+    <Compile Include="Source\MonoGame.Extended\FramesPerSecondCounter.cs" />
+    <Compile Include="Source\MonoGame.Extended\GameTimeExtensions.cs" />
+    <Compile Include="Source\MonoGame.Extended\IColorable.cs" />
+    <Compile Include="Source\MonoGame.Extended\IEquatableByRef.cs" />
+    <Compile Include="Source\MonoGame.Extended\IMovable.cs" />
+    <Compile Include="Source\MonoGame.Extended\IRotatable.cs" />
+    <Compile Include="Source\MonoGame.Extended\IScalable.cs" />
+    <Compile Include="Source\MonoGame.Extended\ISizable.cs" />
+    <Compile Include="Source\MonoGame.Extended\IUpdate.cs" />
+    <Compile Include="Source\MonoGame.Extended\Point2.cs" />
+    <Compile Include="Source\MonoGame.Extended\Shapes\CircleF.cs" />
+    <Compile Include="Source\MonoGame.Extended\Shapes\EllipseF.cs" />
+    <Compile Include="Source\MonoGame.Extended\Shapes\PolygonF.cs" />
+    <Compile Include="Source\MonoGame.Extended\Shapes\PolylineF.cs" />
+    <Compile Include="Source\MonoGame.Extended\Shapes\RectangleExtensions.cs" />
+    <Compile Include="Source\MonoGame.Extended\Shapes\RectangleF.cs" />
+    <Compile Include="Source\MonoGame.Extended\Shapes\ShapeF.cs" />
+    <Compile Include="Source\MonoGame.Extended\Shapes\SpriteBatchExtensions.cs" />
+    <Compile Include="Source\MonoGame.Extended\Size.cs" />
+    <Compile Include="Source\MonoGame.Extended\Size2.cs" />
+    <Compile Include="Source\MonoGame.Extended\TextureAtlases\NinePatchRegion2D.cs" />
+    <Compile Include="Source\MonoGame.Extended\TextureAtlases\SpriteBatchExtensions.cs" />
+    <Compile Include="Source\MonoGame.Extended\TextureAtlases\TextureAtlas.cs" />
+    <Compile Include="Source\MonoGame.Extended\TextureAtlases\TextureAtlasReader.cs" />
+    <Compile Include="Source\MonoGame.Extended\TextureAtlases\TextureRegion2D.cs" />
+    <Compile Include="Source\MonoGame.Extended\Thickness.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\ContentReaderExtensions.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMap.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapEllipseObject.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapHelper..cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapImageLayer.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapLayer.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapLayerType.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapObject.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapObjectDrawOrder.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapObjectLayer.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapObjectType.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapOrientation.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapPolygonObject.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapPolylineObject.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapProperties.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapReader.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapRectangleObject.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapTile.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapTileDrawOrder.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapTileFlipFlags.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapTileLayer.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapTileObject.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapTileset.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapTilesetAnimatedTile.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapTilesetTile.cs" />
+    <Compile Include="Source\MonoGame.Extended\Tiled\TiledMapTilesetTileAnimationFrame.cs" />
+    <Compile Include="Source\MonoGame.Extended\ViewPortAdapters\BoxingViewportAdapter.cs" />
+    <Compile Include="Source\MonoGame.Extended\ViewPortAdapters\DefaultViewportAdapter.cs" />
+    <Compile Include="Source\MonoGame.Extended\ViewPortAdapters\ScalingViewportAdapter.cs" />
+    <Compile Include="Source\MonoGame.Extended\ViewPortAdapters\ViewportAdapter.cs" />
+    <Compile Include="Source\MonoGame.Extended\ViewPortAdapters\WindowViewportAdapter.cs" />
+    <Compile Include="Source\Node.cs" />
+    <Compile Include="Source\Renderable.cs" />
+    <Compile Include="Source\Internal\RenderManager.cs" />
+    <Compile Include="Source\Scene.cs" />
+    <Compile Include="Source\Ui\Button.cs" />
+    <Compile Include="Source\Map\Tile.cs" />
+    <Compile Include="Source\Map\TiledMapEntity.cs" />
+    <Compile Include="Source\Util\Blinker.cs" />
+    <Compile Include="Source\Util\Config.cs" />
+    <Compile Include="Source\Util\Counter.cs" />
+    <Compile Include="Source\Util\Mathf.cs" />
+    <Compile Include="Source\Util\Music.cs" />
+    <Compile Include="Source\Gfx\Overlay.cs" />
+    <Compile Include="Source\Util\PixelMask.cs" />
+    <Compile Include="Source\Util\Rand.cs" />
+    <Compile Include="Source\Internal\SmartList.cs" />
+    <Compile Include="Source\Util\Sfx.cs" />
+    <Compile Include="Source\Util\Shaker.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Util\Vector2Extensions.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!--<Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />-->
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
