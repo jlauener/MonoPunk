@@ -61,52 +61,20 @@ namespace MonoPunk
 		{
 			var hit = HitInfo.None;
 
-			QueryTiles(x, y, otherX, otherY, other.Width, other.Height, (tile, cellX, cellY, localX, localY) =>
+			QueryTiles(x, y, otherX, otherY, other.Width, other.Height, (tile, cellX, cellY, cellWidth, cellHeight) =>
 			{
-				switch (tile.SolidType)
+				if (tile.PixelMask != null)
 				{
-					case TileSolidType.Full:
-						if (Mathf.IntersectRect(cellX, cellY, CellWidth, CellHeight, localX, localY, other.Width, other.Height))
-						{
-							hit = HitInfo.CreateHit(other, tile);
-							return true;
-						}
-						break;
-					case TileSolidType.HalfTop:
-						if (Mathf.IntersectRect(cellX, cellY, CellWidth, CellHeight / 2, localX, localY, other.Width, other.Height))
-						{
-							hit = HitInfo.CreateHit(other, tile);
-							return true;
-						}
-						break;
-					case TileSolidType.HalfBottom:
-						if (Mathf.IntersectRect(cellX, cellY + CellHeight / 2, CellWidth, CellHeight / 2, localX, localY, other.Width, other.Height))
-						{
-							hit = HitInfo.CreateHit(other, tile);
-							return true;
-						}
-						break;
-					case TileSolidType.HalfLeft:
-						if (Mathf.IntersectRect(cellX, cellY, CellWidth / 2, CellHeight, localX, localY, other.Width, other.Height))
-						{
-							hit = HitInfo.CreateHit(other, tile);
-							return true;
-						}
-						break;
-					case TileSolidType.HalfRight:
-						if (Mathf.IntersectRect(cellX + CellWidth / 2, cellY, CellWidth / 2, CellHeight, localX, localY, other.Width, other.Height))
-						{
-							hit = HitInfo.CreateHit(other, tile);
-							return true;
-						}
-						break;
-					case TileSolidType.PixelMask:
-						if (tile.PixelMask.CollideWithOther(cellX, cellY, localX, localY, other))
-						{
-							hit = HitInfo.CreateHit(other, tile);
-							return true;
-						}
-						break;
+					if (tile.PixelMask.CollideWithOther(cellX, cellY, otherX, otherY, other))
+					{
+						hit = HitInfo.CreateHit(other, tile, tile.PixelMask);
+						return true;
+					}
+				}
+				else if (Mathf.IntersectRect(cellX, cellY, cellWidth, cellHeight, otherX, otherY, other.Width, other.Height))
+				{
+					hit = HitInfo.CreateHit(other, tile);
+					return true;
 				}
 
 				return false;
@@ -119,80 +87,66 @@ namespace MonoPunk
 		{
 			var hit = HitInfo.None;
 
-			QueryTiles(x, y, rectX, rectY, rectWidth, rectHeight, (tile, cellX, cellY, localX, localY) =>
+			QueryTiles(x, y, rectX, rectY, rectWidth, rectHeight, (tile, cellX, cellY, cellWidth, cellHeight) =>
 			{
-				switch (tile.SolidType)
+				if (tile.PixelMask != null)
 				{
-					case TileSolidType.Full:
-						if (Mathf.IntersectRect(cellX, cellY, CellWidth, CellHeight, localX, localY, rectWidth, rectHeight))
-						{
-							hit = HitInfo.CreateHit(tile);
-							return true;
-						}
-						break;
-					case TileSolidType.HalfTop:
-						if (Mathf.IntersectRect(cellX, cellY, CellWidth, CellHeight / 2, localX, localY, rectWidth, rectHeight))
-						{
-							hit = HitInfo.CreateHit(tile);
-							return true;
-						}
-						break;
-					case TileSolidType.HalfBottom:
-						if (Mathf.IntersectRect(cellX, cellY + CellHeight / 2, CellWidth, CellHeight / 2, localX, localY, rectWidth, rectHeight))
-						{
-							hit = HitInfo.CreateHit(tile);
-							return true;
-						}
-						break;
-					case TileSolidType.HalfLeft:
-						if (Mathf.IntersectRect(cellX, cellY, CellWidth / 2, CellHeight, localX, localY, rectWidth, rectHeight))
-						{
-							hit = HitInfo.CreateHit(tile);
-							return true;
-						}
-						break;
-					case TileSolidType.HalfRight:
-						if (Mathf.IntersectRect(cellX + CellWidth / 2, cellY, CellWidth / 2, CellHeight, localX, localY, rectWidth, rectHeight))
-						{
-							hit = HitInfo.CreateHit(tile);
-							return true;
-						}
-						break;
-					case TileSolidType.PixelMask:
-						if (tile.PixelMask.CollideRect(cellX, cellY, localX, localY, rectWidth, rectHeight))
-						{
-							hit = HitInfo.CreateHit(tile);
-							return true;
-						}
-						break;
+					if (tile.PixelMask.CollideRect(cellX, cellY, rectX, rectY, rectWidth, rectHeight))
+					{
+						hit = HitInfo.CreateHit(tile, tile.PixelMask);
+						return true;
+					}
+				}
+				else if (Mathf.IntersectRect(cellX, cellY, cellWidth, cellHeight, rectX, rectY, rectWidth, rectHeight))
+				{
+					hit = HitInfo.CreateHit(tile);
+					return true;
 				}
 
 				return false;
+
 			});
 
 			return hit;
 		}
 
-		public void QueryTiles(float x, float y, float rectX, float rectY, int rectWidth, int rectHeight, Func<Tile, int, int, float, float, bool> callback)
+		public void QueryTiles(float x, float y, float rectX, float rectY, int rectWidth, int rectHeight, Func<Tile, float, float, int, int, bool> callback)
 		{
-			var localX = rectX - x;
-			var localY = rectY - y;
-
-			var startX = Math.Max((int)(localX / CellWidth), 0);
-			var startY = Math.Max((int)(localY / CellHeight), 0);
+			var startX = Math.Max((int)((rectX - x) / CellWidth), 0);
+			var startY = Math.Max((int)((rectY - y) / CellHeight), 0);
 			var endX = Math.Min(startX + rectWidth / CellWidth + 2, Width); // FIXME (+2) ?
 			var endY = Math.Min(startY + rectHeight / CellHeight + 2, Height); // FIXME (+2) ?
 
-			var cellX = startX * CellWidth;
+			var cellX = x + startX * CellWidth;
 			for (var ix = startX; ix < endX; ix++)
 			{
-				var cellY = startY * CellHeight;
+				var cellY = y + startY * CellHeight;
 				for (var iy = startY; iy < endY; iy++)
 				{
 					var tile = grid[iy * Width + ix];
 					if (tile != null)
 					{
-						if (callback(tile, cellX, cellY, localX, localY)) return;
+						switch (tile.SolidType)
+						{
+							case TileSolidType.Full:
+								if (callback(tile, cellX, cellY, CellWidth, CellHeight)) return;
+								break;
+							case TileSolidType.HalfTop:
+								if (callback(tile, cellX, cellY, CellWidth, CellHeight / 2)) return;
+								break;
+							case TileSolidType.HalfBottom:
+								if (callback(tile, cellX, cellY + CellHeight / 2, CellWidth, CellHeight / 2)) return;
+								break;
+							case TileSolidType.HalfLeft:
+								if (callback(tile, cellX, cellY, CellWidth / 2, CellHeight)) return;
+								break;
+							case TileSolidType.HalfRight:
+								if (callback(tile, cellX + CellWidth / 2, cellY, CellWidth / 2, CellHeight)) return;
+								break;
+							case TileSolidType.PixelMask:
+								if (callback(tile, cellX, cellY, CellWidth, CellHeight)) return;
+								break;
+						}
 					}
 					cellY += CellHeight;
 				}
@@ -202,58 +156,81 @@ namespace MonoPunk
 
 		public void RenderDebug(float x, float y, SpriteBatch spriteBatch)
 		{
-			for (var ix = 0; ix < Width; ix++)
+			QueryTiles(x, y, x, y, WidthPx, HeightPx, (tile, cellX, cellY, cellWidth, cellHeight) =>
 			{
-				for (var iy = 0; iy < Height; iy++)
+				//Log.Debug("x=" + cellX + "y=" + cellY + " width=" + cellWidth + " height=" + cellHeight);
+				var rect = new RectangleF(cellX, cellY, cellWidth, cellHeight);
+				spriteBatch.DrawRectangle(rect, Color.Green);
+
+				if (tile.PixelMask != null)
 				{
-					var rect = new RectangleF();
-					var tile = grid[iy * Width + ix];
-					if (tile != null)
-					{
-						switch (tile.SolidType)
-						{
-							case TileSolidType.Full:
-								rect.X = x + ix * CellWidth;
-								rect.Y = y + iy * CellHeight;
-								rect.Width = CellWidth;
-								rect.Height = CellHeight;
-								break;
-							case TileSolidType.HalfTop:
-								rect.X = x + ix * CellWidth;
-								rect.Y = y + iy * CellHeight;
-								rect.Width = CellWidth;
-								rect.Height = CellHeight / 2;
-								break;
-							case TileSolidType.HalfBottom:
-								rect.X = x + ix * CellWidth;
-								rect.Y = y + iy * CellHeight + CellHeight / 2;
-								rect.Width = CellWidth;
-								rect.Height = CellHeight / 2;
-								break;
-							case TileSolidType.HalfLeft:
-								rect.X = x + ix * CellWidth;
-								rect.Y = y + iy * CellHeight;
-								rect.Width = CellWidth / 2;
-								rect.Height = CellHeight;
-								break;
-							case TileSolidType.HalfRight:
-								rect.X = x + ix * CellWidth + CellWidth / 2;
-								rect.Y = y + iy * CellHeight;
-								rect.Width = CellWidth / 2;
-								rect.Height = CellHeight;
-								break;
-							case TileSolidType.PixelMask:
-								rect.X = x + ix * CellWidth;
-								rect.Y = y + iy * CellHeight;
-								rect.Width = CellWidth;
-								rect.Height = CellHeight;
-								break;
-						}
-					}
-					spriteBatch.FillRectangle(rect, Color.Green * 0.33f);
-					spriteBatch.DrawRectangle(rect, Color.Green);
+					tile.PixelMask.RenderDebug(cellX, cellY, spriteBatch);
+
 				}
-			}
+				else
+				{
+					spriteBatch.FillRectangle(rect, Color.Green * 0.5f);
+				}
+				return false;
+			});
+
+			//	for (var ix = 0; ix < Width; ix++)
+			//	{
+			//		for (var iy = 0; iy < Height; iy++)
+			//		{
+			//			var rect = new RectangleF();
+			//			var tile = grid[iy * Width + ix];
+			//			if (tile != null)
+			//			{
+			//				switch (tile.SolidType)
+			//				{
+			//					case TileSolidType.Full:
+			//						rect.X = x + ix * CellWidth;
+			//						rect.Y = y + iy * CellHeight;
+			//						rect.Width = CellWidth;
+			//						rect.Height = CellHeight;
+			//						spriteBatch.FillRectangle(rect, Color.Green * 0.5f);
+			//						break;
+			//					case TileSolidType.HalfTop:
+			//						rect.X = x + ix * CellWidth;
+			//						rect.Y = y + iy * CellHeight;
+			//						rect.Width = CellWidth;
+			//						rect.Height = CellHeight / 2;
+			//						spriteBatch.FillRectangle(rect, Color.Green * 0.5f);
+			//						break;
+			//					case TileSolidType.HalfBottom:
+			//						rect.X = x + ix * CellWidth;
+			//						rect.Y = y + iy * CellHeight + CellHeight / 2;
+			//						rect.Width = CellWidth;
+			//						rect.Height = CellHeight / 2;
+			//						spriteBatch.FillRectangle(rect, Color.Green * 0.5f);
+			//						break;
+			//					case TileSolidType.HalfLeft:
+			//						rect.X = x + ix * CellWidth;
+			//						rect.Y = y + iy * CellHeight;
+			//						rect.Width = CellWidth / 2;
+			//						rect.Height = CellHeight;
+			//						spriteBatch.FillRectangle(rect, Color.Green * 0.5f);
+			//						break;
+			//					case TileSolidType.HalfRight:
+			//						rect.X = x + ix * CellWidth + CellWidth / 2;
+			//						rect.Y = y + iy * CellHeight;
+			//						rect.Width = CellWidth / 2;
+			//						rect.Height = CellHeight;
+			//						spriteBatch.FillRectangle(rect, Color.Green * 0.5f);
+			//						break;
+			//					case TileSolidType.PixelMask:
+			//						rect.X = x + ix * CellWidth;
+			//						rect.Y = y + iy * CellHeight;
+			//						rect.Width = CellWidth;
+			//						rect.Height = CellHeight;
+			//						tile.PixelMask.RenderDebug(x + ix * CellWidth, y + iy * CellHeight, spriteBatch);
+			//						break;
+			//				}
+			//			}
+			//			spriteBatch.DrawRectangle(rect, Color.Green);
+			//		}
+			//	}
 		}
 	}
 }

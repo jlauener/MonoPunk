@@ -12,37 +12,33 @@ namespace MonoPunk
 
 		private readonly bool[,] mask;
 
-		public PixelMask(Texture2D texture, Rectangle bounds)
-		{
-			WidthPx = bounds.Width;
-			HeightPx = bounds.Height;
+		private readonly TextureRegion2D region;
 
-			Color[] textureData = new Color[texture.Width * texture.Height];
-			texture.GetData(textureData);
+		public PixelMask(TextureRegion2D region)
+		{
+			this.region = region;
+
+			WidthPx = region.Bounds.Width;
+			HeightPx = region.Bounds.Height;
+
+			Color[] textureData = new Color[region.Texture.Width * region.Texture.Height];
+			region.Texture.GetData(textureData);
 			mask = new bool[WidthPx, HeightPx];
 			for (var ix = 0; ix < WidthPx; ix++)
 			{
 				for (var iy = 0; iy < HeightPx; iy++)
 				{
-					var color = textureData[bounds.X + ix + (bounds.Y + iy) * texture.Width];
+					var color = textureData[region.Bounds.X + ix + (region.Bounds.Y + iy) * region.Texture.Width];
 					mask[ix, iy] = color == Color.White;
 				}
 			}
 		}
 
-		public PixelMask(TextureRegion2D region) : this(region.Texture, region.Bounds)
-		{
-		}
-
-		public PixelMask(string textureName, Rectangle bounds) : this(Asset.LoadTexture(textureName), bounds)
+		public PixelMask(Texture2D texture) : this(new TextureRegion2D(texture))
 		{
 		}
 
 		public PixelMask(string textureName) : this(Asset.LoadTexture(textureName))
-		{
-		}
-
-		public PixelMask(Texture2D texture) : this(texture, new Rectangle(0, 0, texture.Width, texture.Height))
 		{
 		}
 
@@ -62,20 +58,20 @@ namespace MonoPunk
 			{
 				// PixelMask to GridCollider collision.
 				var gridCollider = (GridCollider)other.Collider;
-				gridCollider.QueryTiles(otherX, otherY, x, y, WidthPx, HeightPx, (tile, cellX, cellY, localX, localY) =>
+				gridCollider.QueryTiles(otherX, otherY, x, y, WidthPx, HeightPx, (tile, cellX, cellY, cellWidth, cellHeight) =>
 				{
-					var tileX = otherX + tile.X * gridCollider.CellWidth;
-					var tileY = otherY + tile.Y * gridCollider.CellHeight;
+				//	var tileX = otherX + tile.X * gridCollider.CellWidth;
+					//var tileY = otherY + tile.Y * gridCollider.CellHeight;
 
 					if (tile.PixelMask != null)
 					{
-						if (CollidePixelMaskToPixelMask(x, y, tileX, tileY, tile.PixelMask))
+						if (CollidePixelMaskToPixelMask(x, y, cellX, cellY, tile.PixelMask))
 						{
 							hit = HitInfo.CreateHit(other, tile);
 							return true;
 						}
 					}
-					else if (CollideRect(x, y, tileX, tileY, gridCollider.CellWidth, gridCollider.CellHeight))
+					else if (CollideRect(x, y, cellX, cellY, cellWidth, cellHeight))
 					{
 						hit = HitInfo.CreateHit(other, tile);
 						return true;
@@ -155,7 +151,7 @@ namespace MonoPunk
 
 		public void RenderDebug(float x, float y, SpriteBatch spriteBatch)
 		{
-			// TODO
+			spriteBatch.Draw(region, new Vector2(x, y), Color.Green);
 		}
 	}
 
@@ -171,6 +167,14 @@ namespace MonoPunk
 				var region = tileset.GetTileRegion(i);
 				masks[i] = new PixelMask(region);
 			}
+		}
+
+		public PixelMaskSet(string textureName, int tileWidth, int tileHeight) : this(new Tileset(textureName, tileWidth, tileHeight))
+		{
+		}
+
+		public PixelMaskSet(string tilesetName) : this(Asset.GetTileset(tilesetName))
+		{
 		}
 
 		public PixelMask GetMask(int id)

@@ -116,7 +116,7 @@ namespace MonoPunk
 
 		protected virtual void OnRenderDebug(SpriteBatch spriteBatch)
 		{
-			if (Collider != null) Collider.RenderDebug(X, Y, spriteBatch);
+			if (Collider != null) Collider.RenderDebug(X - OriginX, Y - OriginY, spriteBatch);
 			spriteBatch.DrawRectangle(new RectangleF(X - OriginX, Y - OriginY, Width, Height), Color.Blue);
 			spriteBatch.DrawPoint(Position, Color.Red, 2.0f);
 		}
@@ -291,8 +291,11 @@ namespace MonoPunk
 			set
 			{
 				collider = value;
-				Width = collider.WidthPx;
-				Height = collider.HeightPx;
+				if (collider != null)
+				{
+					Width = collider.WidthPx;
+					Height = collider.HeightPx;
+				}
 			}
 		}
 

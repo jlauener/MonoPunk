@@ -13,7 +13,11 @@ namespace MonoPunk_TestBed
 		{
 			player = new Entity(80, 80);
 			player.Collider = new PixelMask("gfx/mask2");
-			player.Add(new Sprite("gfx/mask2"));
+			player.OriginX = player.Width / 2;
+			player.OriginY = player.Height / 2;
+			var playerSprite = new Sprite("gfx/mask2");
+			playerSprite.CenterOrigin();
+			player.Add(playerSprite);
 			Add(player);
 
 			var entity1 = new Entity(40, 30);
