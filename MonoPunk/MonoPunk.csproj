@@ -143,6 +143,7 @@
     <Compile Include="Source\Util\Blinker.cs" />
     <Compile Include="Source\Util\Config.cs" />
     <Compile Include="Source\Util\Counter.cs" />
+    <Compile Include="Source\Gfx\DrawLayer.cs" />
     <Compile Include="Source\Util\Mathf.cs" />
     <Compile Include="Source\Util\Music.cs" />
     <Compile Include="Source\Gfx\Overlay.cs" />

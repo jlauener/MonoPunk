@@ -80,36 +80,6 @@ namespace MonoPunk
 			set { Instance.pause = value; }
 		}
 
-		[Obsolete("Use Log class instead.")]
-		public static void LogDebug(string log)
-		{
-			Log.Debug(log);
-		}
-
-		[Obsolete("Use Log class instead.")]
-		public static void LogWarning(string log)
-		{
-			Log.Warn(log);
-		}
-
-		[Obsolete("Use Log class instead.")]
-		public static void LogWarning(string log, Exception ex)
-		{
-			Log.Warn(log, ex);
-		}
-
-		[Obsolete("Use Log class instead.")]
-		public static void LogError(string log)
-		{
-			Log.Error(log);
-		}
-
-		[Obsolete("Use Log class instead.")]
-		public static void LogError(string log, Exception ex)
-		{
-			Log.Error(log, ex);
-		}
-
 		public static void Throw(Exception ex)
 		{
 			Log.Fatal(ex.Message);
@@ -511,6 +481,18 @@ namespace MonoPunk
 		{
 			get { return Instance.Window.Title; }
 			set { Instance.Window.Title = value; }
+		}
+
+		public static void SetRenderTarget(RenderTarget2D renderTarget)
+		{
+			if (renderTarget != null)
+			{
+				Instance.GraphicsDevice.SetRenderTarget(renderTarget);
+			}
+			else
+			{
+				Instance.GraphicsDevice.SetRenderTarget(Instance.renderTarget);
+			}
 		}
 	}
 }
