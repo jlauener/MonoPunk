@@ -169,11 +169,6 @@ namespace MonoPunk
 
 		private static Dictionary<string, Music> MUSICS = new Dictionary<string, Music>();
 
-		public static void AddMusic(string name, string assetName, bool loop = false, float volume = 1.0f)
-		{
-			AddMusic(name, new Music(assetName, loop, volume));
-		}
-
 		public static void AddMusic(string name, Music music)
 		{
 			if (MUSICS.ContainsKey(name))
@@ -181,6 +176,11 @@ namespace MonoPunk
 				throw new Exception("Music with name '" + name + "' already exists!");
 			}
 			MUSICS[name] = music;
+		}
+
+		public static void AddMusic(string name, string assetName, bool loop = false, float volume = 1.0f)
+		{
+			AddMusic(name, new Music(assetName, loop, volume));
 		}
 
 		public static Music GetMusic(string name)
@@ -191,6 +191,77 @@ namespace MonoPunk
 				throw new Exception("Music with name '" + name + "' not found!");
 			}
 			return music;
+		}
+
+		#endregion
+
+		#region PixelMask
+
+		private static Dictionary<string, PixelMask> PIXEL_MASKS = new Dictionary<string, PixelMask>();
+
+		public static void AddPixelMask(string name, PixelMask pixelMask)
+		{
+			if (PIXEL_MASKS.ContainsKey(name))
+			{
+				throw new Exception("PixelMask with name '" + name + "' already exists!");
+			}
+			PIXEL_MASKS[name] = pixelMask;
+		}
+
+		public static void AddPixelMask(string name, Texture2D texture)
+		{
+			AddPixelMask(name, new PixelMask(texture));
+		}
+
+		public static void AddPixelMask(string name, string textureName)
+		{
+			AddPixelMask(name, new PixelMask(textureName));
+		}
+
+		public static PixelMask GetPixelMask(string name)
+		{
+			PixelMask pixelMask;
+			if (!PIXEL_MASKS.TryGetValue(name, out pixelMask))
+			{
+				throw new Exception("PixelMask with name '" + name + "' not found!");
+			}
+			return pixelMask;
+		}
+
+		private static Dictionary<string, PixelMaskSet> PIXEL_MASK_SETS = new Dictionary<string, PixelMaskSet>();
+
+		public static void AddPixelMaskSet(string name, PixelMaskSet pixelMaskSet)
+		{
+			if (PIXEL_MASK_SETS.ContainsKey(name))
+			{
+				throw new Exception("PixelMaskSet with name '" + name + "' already exists!");
+			}
+			PIXEL_MASK_SETS[name] = pixelMaskSet;
+		}
+
+		public static void AddPixelMaskSet(string name, Tileset tileset)
+		{
+			AddPixelMaskSet(name, new PixelMaskSet(tileset));
+		}
+
+		public static void AddPixelMaskSet(string name, string textureName, int tileWidth, int tileHeight)
+		{
+			AddPixelMaskSet(name, new PixelMaskSet(textureName, tileWidth, tileHeight));
+		}
+
+		public static void AddPixelMaskSet(string name, string tilesetName)
+		{
+			AddPixelMaskSet(name, new PixelMaskSet(tilesetName));
+		}
+
+		public static PixelMaskSet GetPixelMaskSet(string name)
+		{
+			PixelMaskSet pixelMaskSet;
+			if (!PIXEL_MASK_SETS.TryGetValue(name, out pixelMaskSet))
+			{
+				throw new Exception("PixelMaskSet with name '" + name + "' not found!");
+			}
+			return pixelMaskSet;
 		}
 
 		#endregion

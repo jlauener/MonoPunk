@@ -32,6 +32,10 @@ namespace MonoPunk
 			this.pixelMaskSet = pixelMaskSet;
 		}
 
+		public GridCollider(int width, int height, int cellWidth, int cellHeight, string pixelMaskSetName) : this(width, height, cellWidth, cellHeight, Asset.GetPixelMaskSet(pixelMaskSetName))
+		{
+		}
+
 		public void AddTile(Tile tile)
 		{
 			grid[tile.Y * Width + tile.X] = tile;
@@ -55,6 +59,11 @@ namespace MonoPunk
 			}
 
 			grid[y * Width + x] = new Tile(x, y, pixelMaskSet.GetMask(id));
+		}
+
+		public void SetPixelMaskAt(int x, int y, PixelMask pixelMask)
+		{
+			grid[y * Width + x] = new Tile(x, y, pixelMask);
 		}
 
 		public HitInfo CollideWithOther(float x, float y, float otherX, float otherY, Entity other)
@@ -158,79 +167,19 @@ namespace MonoPunk
 		{
 			QueryTiles(x, y, x, y, WidthPx, HeightPx, (tile, cellX, cellY, cellWidth, cellHeight) =>
 			{
-				//Log.Debug("x=" + cellX + "y=" + cellY + " width=" + cellWidth + " height=" + cellHeight);
-				var rect = new RectangleF(cellX, cellY, cellWidth, cellHeight);
-				spriteBatch.DrawRectangle(rect, Color.Green);
-
 				if (tile.PixelMask != null)
 				{
 					tile.PixelMask.RenderDebug(cellX, cellY, spriteBatch);
-
 				}
 				else
 				{
+					var rect = new RectangleF(cellX, cellY, cellWidth, cellHeight);
 					spriteBatch.FillRectangle(rect, Color.Green * 0.5f);
+					spriteBatch.DrawRectangle(rect, Color.Green);
 				}
 				return false;
 			});
 
-			//	for (var ix = 0; ix < Width; ix++)
-			//	{
-			//		for (var iy = 0; iy < Height; iy++)
-			//		{
-			//			var rect = new RectangleF();
-			//			var tile = grid[iy * Width + ix];
-			//			if (tile != null)
-			//			{
-			//				switch (tile.SolidType)
-			//				{
-			//					case TileSolidType.Full:
-			//						rect.X = x + ix * CellWidth;
-			//						rect.Y = y + iy * CellHeight;
-			//						rect.Width = CellWidth;
-			//						rect.Height = CellHeight;
-			//						spriteBatch.FillRectangle(rect, Color.Green * 0.5f);
-			//						break;
-			//					case TileSolidType.HalfTop:
-			//						rect.X = x + ix * CellWidth;
-			//						rect.Y = y + iy * CellHeight;
-			//						rect.Width = CellWidth;
-			//						rect.Height = CellHeight / 2;
-			//						spriteBatch.FillRectangle(rect, Color.Green * 0.5f);
-			//						break;
-			//					case TileSolidType.HalfBottom:
-			//						rect.X = x + ix * CellWidth;
-			//						rect.Y = y + iy * CellHeight + CellHeight / 2;
-			//						rect.Width = CellWidth;
-			//						rect.Height = CellHeight / 2;
-			//						spriteBatch.FillRectangle(rect, Color.Green * 0.5f);
-			//						break;
-			//					case TileSolidType.HalfLeft:
-			//						rect.X = x + ix * CellWidth;
-			//						rect.Y = y + iy * CellHeight;
-			//						rect.Width = CellWidth / 2;
-			//						rect.Height = CellHeight;
-			//						spriteBatch.FillRectangle(rect, Color.Green * 0.5f);
-			//						break;
-			//					case TileSolidType.HalfRight:
-			//						rect.X = x + ix * CellWidth + CellWidth / 2;
-			//						rect.Y = y + iy * CellHeight;
-			//						rect.Width = CellWidth / 2;
-			//						rect.Height = CellHeight;
-			//						spriteBatch.FillRectangle(rect, Color.Green * 0.5f);
-			//						break;
-			//					case TileSolidType.PixelMask:
-			//						rect.X = x + ix * CellWidth;
-			//						rect.Y = y + iy * CellHeight;
-			//						rect.Width = CellWidth;
-			//						rect.Height = CellHeight;
-			//						tile.PixelMask.RenderDebug(x + ix * CellWidth, y + iy * CellHeight, spriteBatch);
-			//						break;
-			//				}
-			//			}
-			//			spriteBatch.DrawRectangle(rect, Color.Green);
-			//		}
-			//	}
 		}
 	}
 }
