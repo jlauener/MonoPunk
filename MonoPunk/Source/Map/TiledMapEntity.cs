@@ -125,29 +125,6 @@ namespace MonoPunk
 		public Tile GetTileAt(TiledMapTileLayer layer, int x, int y)
 		{
 			return Map.GetTileAt(layer, x, y);
-			//if (x < 0 || x >= MapWidth || y < 0 || y >= MapHeight)
-			//{
-			//	return null;
-			//}
-
-			//TiledMapTile? tiledTile;
-			//if (!layer.TryGetTile(x, y, out tiledTile) || tiledTile.Value.GlobalIdentifier == 0)
-			//{
-			//	return null;
-			//}
-
-			//var globalId = tiledTile.Value.GlobalIdentifier;
-			//var tileset = Map.GetTilesetByTileGlobalIdentifier(globalId);
-			//var localId = globalId - tileset.FirstGlobalIdentifier;
-			//var tiledTilesetTile = tileset.GetTileByLocalTileIdentifier(localId);
-			//if (tiledTilesetTile == null)
-			//{
-			//	return new Tile(globalId, localId, x, y);
-			//}
-			//else
-			//{
-			//	return new Tile(globalId, tiledTilesetTile.LocalTileIdentifier, x, y, tiledTilesetTile.Properties);
-			//}
 		}
 
 		public override string ToString()

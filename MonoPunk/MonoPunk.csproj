@@ -51,6 +51,7 @@
     <Compile Include="Source\Gfx\Animator.cs" />
     <Compile Include="Source\Gfx\Backdrop.cs" />
     <Compile Include="Source\Gfx\BlinkingLabel.cs" />
+    <Compile Include="Source\Gfx\Tileset.cs" />
     <Compile Include="Source\Gfx\TileSprite.cs" />
     <Compile Include="Source\Gfx\ValueBar.cs" />
     <Compile Include="Source\Gfx\RectBar.cs" />

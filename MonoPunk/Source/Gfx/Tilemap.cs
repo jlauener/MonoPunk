@@ -2,48 +2,57 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.TextureAtlases;
 using System;
-using System.Collections.Generic;
 
 namespace MonoPunk
 {
-	public class Tileset
+	public class Tilemap : Renderable
 	{
-		public Texture2D Texture { get; }
-		public int TileWidth { get; }
-		public int TileHeight { get; }
-		public int TileCount { get { return regions.Count; } }
-
-		private readonly Dictionary<int, TextureRegion2D> regions = new Dictionary<int, TextureRegion2D>();
-
-		public Tileset(Texture2D texture, int tileWidth, int tileHeight)
+		private class Tile
 		{
-			Texture = texture;
-			TileWidth = tileWidth;
-			TileHeight = tileHeight;
+			public int TileId { get; set; }
 
-			var id = 0;
-			for (var iy = 0; iy < Texture.Height; iy += TileHeight)
+			internal SpriteEffects Effects { get; private set; }
+
+			public bool FlipX
 			{
-				for (var ix = 0; ix < Texture.Width; ix += TileWidth)
+				get { return Effects == SpriteEffects.FlipHorizontally; }
+				set
 				{
-					regions.Add(id, new TextureRegion2D(texture, ix, iy, TileWidth, TileHeight));
-					id++;
+					if (value)
+					{
+						if (FlipY) throw new Exception("Cannot flip a sprite horizontally and vertically.");
+						Effects = SpriteEffects.FlipHorizontally;
+					}
+					else if (!FlipY)
+					{
+						Effects = SpriteEffects.None;
+					}
 				}
+			}
+
+			public bool FlipY
+			{
+				get { return Effects == SpriteEffects.FlipVertically; }
+				set
+				{
+					if (value)
+					{
+						if (FlipX) throw new Exception("Cannot flip a sprite horizontally and vertically.");
+						Effects = SpriteEffects.FlipVertically;
+					}
+					else if (!FlipX)
+					{
+						Effects = SpriteEffects.None;
+					}
+				}
+			}
+
+			public Tile(int tileId)
+			{
+				TileId = tileId;
 			}
 		}
 
-		public Tileset(string textureName, int tileWidth, int tileHeight) : this(Asset.LoadTexture(textureName), tileWidth, tileHeight)
-		{
-		}
-
-		public TextureRegion2D GetTileRegion(int id)
-		{
-			return id == -1 ? null : regions[id];
-		}
-	}
-
-	public class Tilemap : Renderable
-	{
 		public readonly int Width;
 		public readonly int Height;
 
@@ -87,7 +96,7 @@ namespace MonoPunk
 		}
 
 		private Tileset tileset;
-		private readonly int[] map;
+		private readonly Tile[,] map;
 
 		public Tilemap(Tileset tileset, int width, int height, int defaultTileId = -1)
 		{
@@ -95,10 +104,14 @@ namespace MonoPunk
 			Width = width;
 			Height = height;
 
-			map = new int[height * width];
-			for (int i = 0; i < height * width; ++i)
+			map = new Tile[width, height];
+			for (int ix = 0; ix < width; ix++)
 			{
-				map[i] = defaultTileId;
+				for (int iy = 0; iy < height; iy++)
+
+				{
+					map[ix,iy] = new Tile(defaultTileId);
+				}
 			}
 		}
 
@@ -108,12 +121,12 @@ namespace MonoPunk
 
 		public void SetTileAt(int x, int y, int tileId)
 		{
-			map[y * Width + x] = tileId;
+			map[x, y].TileId = tileId;
 		}
 
 		public int GetTileAt(int x, int y)
 		{
-			return map[y * Width + x];
+			return map[x, y].TileId;
 		}
 
 		protected override void OnRender(SpriteBatch spriteBatch)
@@ -125,12 +138,12 @@ namespace MonoPunk
 			{
 				for (var iy = 0; iy < Height; iy++)
 				{
-					var tileId = GetTileAt(ix, iy);
-					if (tileId != -1)
+					var tile = map[ix, iy];
+					if (tile.TileId != -1)
 					{
-						var region = tileset.GetTileRegion(tileId);
-						var destinationRectangle = new Rectangle(offsetX + ix * TileWidth, offsetY + iy * TileHeight, TileWidth, TileHeight);
-						spriteBatch.Draw(region, destinationRectangle, Color * Alpha);
+						var region = tileset.GetTileRegion(tile.TileId);
+						var position = new Vector2(offsetX + ix * TileWidth, offsetY + iy * TileHeight);
+						spriteBatch.Draw(region, position, Color * Alpha, 0.0f, Vector2.Zero, Vector2.One, tile.Effects, 0.0f);
 					}
 				}
 			}

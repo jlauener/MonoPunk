@@ -7,10 +7,44 @@ namespace MonoPunk
 {
     public class Sprite : Renderable
     {
-        public float Rotation { get; set; } = 0.0f;                
-        public bool FlipH { get; set; }
+        public float Rotation { get; set; } = 0.0f;
 
-        private Vector2 origin = Vector2.Zero;
+		private SpriteEffects effects;
+		public bool FlipX
+		{
+			get { return effects == SpriteEffects.FlipHorizontally; }
+			set
+			{
+				if (value)
+				{
+					if (FlipY) throw new Exception("Cannot flip a sprite horizontally and vertically.");
+					effects = SpriteEffects.FlipHorizontally;
+				}
+				else if (!FlipY)
+				{
+					effects = SpriteEffects.None;
+				}
+			}
+		}
+
+		public bool FlipY
+		{
+			get { return effects == SpriteEffects.FlipVertically; }
+			set
+			{
+				if (value)
+				{
+					if (FlipX) throw new Exception("Cannot flip a sprite horizontally and vertically.");
+					effects = SpriteEffects.FlipVertically;
+				}
+				else if (!FlipX)
+				{
+					effects = SpriteEffects.None;
+				}
+			}
+		}
+
+		private Vector2 origin = Vector2.Zero;
 
         public Vector2 Origin
         {
@@ -87,7 +121,6 @@ namespace MonoPunk
 
         protected override void OnRender(SpriteBatch spriteBatch)
         {
-			var effects = FlipH ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 			spriteBatch.Draw(region, GlobalPosition, Color * Alpha, Rotation, origin, scale, effects, 0.0f);
         }
     }
