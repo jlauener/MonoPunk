@@ -27,14 +27,15 @@ namespace MonoPunk
 
 		private readonly Dictionary<string, string> properties;
 
-		public Tile(int x, int y, TileSolidType solidType)
+		public Tile(int x, int y, TileSolidType solidType, Dictionary<string, string> properties = null)
 		{
 			X = x;
 			Y = y;
 			SolidType = solidType;
+			this.properties = properties;
 		}
 
-		public Tile(int x, int y, PixelMask pixelMask) : this(x, y, TileSolidType.PixelMask)
+		public Tile(int x, int y, PixelMask pixelMask, Dictionary<string, string> properties = null) : this(x, y, TileSolidType.PixelMask, properties)
 		{
 			PixelMask = pixelMask;
 		}

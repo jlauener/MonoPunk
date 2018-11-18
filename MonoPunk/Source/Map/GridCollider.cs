@@ -2,6 +2,7 @@
 using System;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Shapes;
+using System.Collections.Generic;
 
 namespace MonoPunk
 {
@@ -41,29 +42,29 @@ namespace MonoPunk
 			grid[tile.Y * Width + tile.X] = tile;
 		}
 
-		public void SetTileAt(int x, int y, TileSolidType solidType)
+		public void SetTileAt(int x, int y, TileSolidType solidType, Dictionary<string, string> properties = null)
 		{
 			if (solidType == TileSolidType.PixelMask)
 			{
 				throw new Exception("Invalid TileSolidType, use setPixelMaskAt instead.");
 			}
 
-			grid[y * Width + x] = new Tile(x, y, solidType);
+			grid[y * Width + x] = new Tile(x, y, solidType, properties);
 		}
 
-		public void SetPixelMaskAt(int x, int y, int id)
+		public void SetPixelMaskAt(int x, int y, int id, Dictionary<string, string> properties = null)
 		{
 			if (pixelMaskSet == null)
 			{
 				throw new Exception("Grid collider doesn't have a PixelMaskSet, set one in the GridCollider constructor.");
 			}
 
-			grid[y * Width + x] = new Tile(x, y, pixelMaskSet.GetMask(id));
+			grid[y * Width + x] = new Tile(x, y, pixelMaskSet.GetMask(id), properties);
 		}
 
-		public void SetPixelMaskAt(int x, int y, PixelMask pixelMask)
+		public void SetPixelMaskAt(int x, int y, PixelMask pixelMask, Dictionary<string, string> properties = null)
 		{
-			grid[y * Width + x] = new Tile(x, y, pixelMask);
+			grid[y * Width + x] = new Tile(x, y, pixelMask, properties);
 		}
 
 		public HitInfo CollideWithOther(float x, float y, float otherX, float otherY, Entity other)
