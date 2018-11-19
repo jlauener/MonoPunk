@@ -38,6 +38,8 @@ namespace MonoPunk
         {
             this.interval = interval;
             this.renderables = renderables;
+
+			Enabled = true;
         }
 
         protected override void OnUpdate(float deltaTime)
