@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace MonoPunk
@@ -36,6 +37,11 @@ namespace MonoPunk
         {
             return NextFloat() < 0.5f;
         }
+
+		public static Vector2 NextNormal()
+		{
+			return Vector2.UnitX.Rotate(NextFloat(Mathf.Pi2));
+		}
 
         public static void Shuffle<T>(T[] array)
         {
