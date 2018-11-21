@@ -254,6 +254,19 @@ namespace MonoPunk
 			}
 		}
 
+		public int GetEntityCount<T>()
+		{
+			var count = 0;
+			foreach (var entity in GetEntities())
+			{
+				if (entity is T)
+				{
+					count++;
+				}
+			}
+			return count;
+		}
+
 		public void ForEach<T>(Action<T> action) where T : Entity
 		{
 			foreach (var entity in GetEntities())
