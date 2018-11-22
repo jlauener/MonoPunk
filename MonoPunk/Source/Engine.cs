@@ -135,7 +135,7 @@ namespace MonoPunk
 
 		public static Effect PostProcessor { get; set; }
 
-		private string debugFontName;
+		private readonly string debugFontName;
 
 		public Engine(int width, int height, float windowScale = 1.0f, bool fullScreen = false, string debugFont = "font/04b03")
 		{

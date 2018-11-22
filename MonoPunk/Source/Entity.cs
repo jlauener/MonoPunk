@@ -65,6 +65,7 @@ namespace MonoPunk
 		{
 			Scene = scene;
 			this.renderManager = renderManager;
+			components.FlushAddList(FlushAddComponent);
 			OnAdded();
 		}
 
