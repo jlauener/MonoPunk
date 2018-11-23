@@ -8,6 +8,8 @@ namespace MonoPunk
 {
     public class Shaker : Entity
     {
+		public bool Enabled { get; set; } = true;
+
 		private Camera2D camera;
 		private Vector2 originalCameraPosition;
 
@@ -19,9 +21,22 @@ namespace MonoPunk
 			originalCameraPosition = camera.Position;
 		}
 
+		public void StopAll()
+		{
+			events.Clear();
+		}
+
+		public void ResetCameraOrigin()
+		{
+			originalCameraPosition = camera.Position;
+		}
+
         public void Shake(float strenghtX, float strenghtY, float decay = 0.8f)
         {
-            events.Add(new ShakeEvent(Mathf.Abs(strenghtX), Mathf.Abs(strenghtY), decay));
+			if (Enabled)
+			{
+				events.Add(new ShakeEvent(Mathf.Abs(strenghtX), Mathf.Abs(strenghtY), decay));
+			}
         }
 
         public void Shake(Vector2 strenght, float decay = 0.8f)
@@ -36,12 +51,16 @@ namespace MonoPunk
 
         public void Bounce(Vector2 offset, float duration)
         {
-            events.Add(new BounceEvent(offset, duration));
+			if (Enabled)
+			{
+				events.Add(new BounceEvent(offset, duration));
+			}
         }
 
         protected override void OnUpdate(float deltaTime)
         {
             base.OnUpdate(deltaTime);
+			if (!Enabled) return;
 
 			var offset = originalCameraPosition;
             for(var i = events.Count - 1; i >= 0; i--)
