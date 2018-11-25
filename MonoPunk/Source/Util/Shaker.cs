@@ -10,15 +10,16 @@ namespace MonoPunk
     {
 		public bool Enabled { get; set; } = true;
 
-		private Camera2D camera;
-		private Vector2 originalCameraPosition;
+		//private Camera2D camera;
+		//public Vector2 Origin { get; set; }
+		public Vector2 Offset { get; private set; }
 
         private List<Event> events = new List<Event>();
 
 		public Shaker(Camera2D camera)
 		{
-			this.camera = camera;
-			originalCameraPosition = camera.Position;
+			//this.camera = camera;
+			//Origin = camera.Position;
 		}
 
 		public void StopAll()
@@ -26,10 +27,10 @@ namespace MonoPunk
 			events.Clear();
 		}
 
-		public void ResetCameraOrigin()
-		{
-			originalCameraPosition = camera.Position;
-		}
+		//public void ResetCameraOrigin()
+		//{
+		//	Origin = camera.Position;
+		//}
 
         public void Shake(float strenghtX, float strenghtY, float decay = 0.8f)
         {
@@ -62,7 +63,7 @@ namespace MonoPunk
             base.OnUpdate(deltaTime);
 			if (!Enabled) return;
 
-			var offset = originalCameraPosition;
+			var offset = Vector2.Zero;
             for(var i = events.Count - 1; i >= 0; i--)
             {
                 if(events[i].Apply(deltaTime, ref offset))
@@ -70,9 +71,10 @@ namespace MonoPunk
                     events.RemoveAt(i);
                 }
             }
+			Offset = offset;
 
-            var camera = this.camera != null ? this.camera : Scene.Camera;
-            camera.Position = offset;
+          //  var camera = this.camera != null ? this.camera : Scene.Camera;
+          //  camera.Position = offset;
         }
 
         private interface Event
