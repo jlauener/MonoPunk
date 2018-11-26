@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Shapes;
 using MonoGame.Extended.TextureAtlases;
 using System;
 
@@ -152,6 +153,7 @@ namespace MonoPunk
 		public void RenderDebug(float x, float y, SpriteBatch spriteBatch)
 		{
 			spriteBatch.Draw(region, new Vector2(x, y), Color.Green);
+			spriteBatch.DrawRectangle(new RectangleF(x, y, WidthPx, HeightPx), Color.Green * 0.5f);
 		}
 	}
 
