@@ -88,14 +88,18 @@ namespace MonoPunk
 
 	public abstract class Scene
 	{
-		public Camera2D Camera { get; private set; } = Engine.CreateCamera();
+		public Camera2D Camera { get; set; } = Engine.CreateCamera();
 
-		private readonly RenderManager renderManager = new RenderManager();
+		private readonly RenderManager renderManager;
 		private readonly Tweener tweener = new Tweener();
 		private readonly SpriteBatch spriteBatch = new SpriteBatch(Engine.Instance.GraphicsDevice);
 
 		#region Internal
 
+		public Scene()
+		{
+			renderManager = new RenderManager(Camera);
+		}
 		internal void Begin()
 		{
 			FlushEntitiesAddList();

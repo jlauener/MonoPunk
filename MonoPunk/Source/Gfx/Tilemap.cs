@@ -131,12 +131,21 @@ namespace MonoPunk
 
 		protected override void OnRender(SpriteBatch spriteBatch)
 		{
+			// FIXME offset will NOT work with culling
 			var offsetX = (int)GlobalPosition.X;
 			var offsetY = (int)GlobalPosition.Y;
 
-			for (var ix = 0; ix < Width; ix++)
+			var visibleBounds = GetVisibleBounds();
+
+			var startX = ((int)visibleBounds.X) / TileWidth;
+			var endX = Mathf.Min(startX + ((int)visibleBounds.Width) / TileWidth + 2, Width);
+
+			var startY = ((int)visibleBounds.Y) / TileHeight;
+			var endY = Mathf.Min(startY + ((int)visibleBounds.Height) / TileHeight + 2, Height);
+
+			for (var ix = startX; ix < endX; ix++)
 			{
-				for (var iy = 0; iy < Height; iy++)
+				for (var iy = startY; iy < endY; iy++)
 				{
 					var tile = map[ix, iy];
 					if (tile.TileId != -1)

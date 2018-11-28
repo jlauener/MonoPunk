@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoGame.Extended.Shapes;
 using System;
 using System.Collections.Generic;
 
@@ -8,6 +9,7 @@ namespace MonoPunk
 {
     public class RenderManager
     {
+		private readonly Camera2D sceneCamera;
         private readonly SortedDictionary<int, Layer> _layers;
 
         private class MyComparer : IComparer<int>
@@ -18,8 +20,9 @@ namespace MonoPunk
             }
         }
 
-        public RenderManager()
+        public RenderManager(Camera2D sceneCamera)
         {
+			this.sceneCamera = sceneCamera;
             _layers = new SortedDictionary<int, Layer>(new MyComparer());
         }
 
@@ -75,7 +78,19 @@ namespace MonoPunk
                 layer.Render(spriteBatch);
                 layer.EndRender(spriteBatch);
             }
-        }       
+        }
+
+		public RectangleF GetVisibleBounds(int layerId)
+		{
+			Layer layer;
+			if (!_layers.TryGetValue(layerId, out layer))
+			{
+				return RectangleF.Empty;
+			}
+
+			var camera = layer.UseCustomCamera ? layer.CustomCamera : sceneCamera;
+			return camera.BoundingRectangle;
+		}
 
         private Layer GetOrCreateLayer(int layerId)
         {

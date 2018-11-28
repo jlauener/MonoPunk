@@ -16,7 +16,7 @@ namespace MonoPunk
 
         private List<Event> events = new List<Event>();
 
-		public Shaker(Camera2D camera)
+		public Shaker(Camera2D camera = null)
 		{
 			//this.camera = camera;
 			//Origin = camera.Position;

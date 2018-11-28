@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Shapes;
 using System;
 
 namespace MonoPunk
@@ -75,6 +76,11 @@ namespace MonoPunk
 		public int CompareTo(Renderable other)
 		{
 			return SortOrder - other.SortOrder;
+		}
+
+		public RectangleF GetVisibleBounds()
+		{
+			return renderManager.GetVisibleBounds(Layer);
 		}
 	}
 }

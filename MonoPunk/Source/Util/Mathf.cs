@@ -24,12 +24,18 @@ namespace MonoPunk
         {
             return x1 + width1 > x2 && y1 + height1 > y2 && x1 < x2 + width2 && y1 < y2 + height2;
         }
+
         public static bool IntersectPoint(float x, float y, float width, float height, float px, float py)
         {
             return x + width > px && y + height > py && x < px && y < py;
         }
 
-        public static int Round(float value)
+		public static bool IntersectPoint(Rectangle rect, float px, float py)
+		{
+			return rect.X + rect.Width > px && rect.Y + rect.Height > py && rect.X < px && rect.Y < py;
+		}
+
+		public static int Round(float value)
         {
             return (int)Math.Round(value);
         }
