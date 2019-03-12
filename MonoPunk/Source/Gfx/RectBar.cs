@@ -7,14 +7,14 @@ namespace MonoPunk
 {
     public class RectBar : Renderable
     {
-        private float _percent;
+        private float percent;
         public float Percent
         {
-            get { return _percent; }
+            get { return percent; }
             set
             {
-                _percent = value;
-                _front.Width = Mathf.Floor(_percent * Width);
+                percent = value;
+                front.Width = Mathf.Floor(percent * Width);
             }
         }
         public bool Inverse { get; set; }
@@ -22,49 +22,49 @@ namespace MonoPunk
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        private readonly RectangleShape _outline;
+        private readonly RectangleShape outline;
         public Color OutlineColor
         {
-            get { return _outline.Color; }
-            set { _outline.Color = value; }
+            get { return outline.Color; }
+            set { outline.Color = value; }
         }
-        private int _outlineWidth;
+        private int outlineWIdth;
         public int OutlineWidth
         {
-            get { return _outlineWidth; }
+            get { return outlineWIdth; }
             set
             {
-                _outlineWidth = value;
-                _outline.Width = Width + _outlineWidth * 2;
-                _outline.Height = Height + _outlineWidth * 2;
-                _outline.X = -_outlineWidth;
-                _outline.Y = -_outlineWidth;
-                _outline.Visible = _outlineWidth > 0;
+                outlineWIdth = value;
+                outline.Width = Width + outlineWIdth * 2;
+                outline.Height = Height + outlineWIdth * 2;
+                outline.X = -outlineWIdth;
+                outline.Y = -outlineWIdth;
+                outline.Visible = outlineWIdth > 0;
             }
         }
 
-        private readonly RectangleShape _back;
+        private readonly RectangleShape back;
         public Color BackColor
         {
-            get { return _back.Color; }
-            set { _back.Color = value; }
+            get { return back.Color; }
+            set { back.Color = value; }
         }
         public bool BackVisible
         {
-            get { return _back.Visible; }
-            set { _back.Visible = value; }
+            get { return back.Visible; }
+            set { back.Visible = value; }
         }
 
-        private readonly RectangleShape _front;
+        private readonly RectangleShape front;
         public Color FrontColor
         {
-            get { return _front.Color; }
-            set { _front.Color = value; }
+            get { return front.Color; }
+            set { front.Color = value; }
         }
         public bool FrontVisible
         {
-            get { return _front.Visible; }
-            set { _front.Visible = value; }
+            get { return front.Visible; }
+            set { front.Visible = value; }
         }
 
         public RectBar(int width, int height)
@@ -72,15 +72,15 @@ namespace MonoPunk
             Width = width;
             Height = height;
 
-            _outline = new RectangleShape(0, 0);
-            _outline.Visible = false;
-            Add(_outline);
+            outline = new RectangleShape(0, 0);
+            outline.Visible = false;
+            Add(outline);
 
-            _back = new RectangleShape(Width, Height);
-            Add(_back);
+            back = new RectangleShape(Width, Height);
+            Add(back);
 
-            _front = new RectangleShape(0, Height);
-            Add(_front);
+            front = new RectangleShape(0, Height);
+            Add(front);
         }
     }
 }
