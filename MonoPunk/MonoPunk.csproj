@@ -48,6 +48,7 @@
     <Compile Include="Source\Component.cs" />
     <Compile Include="Source\Engine.cs" />
     <Compile Include="Source\Entity.cs" />
+    <Compile Include="Source\EntityData.cs" />
     <Compile Include="Source\Gfx\Animator.cs" />
     <Compile Include="Source\Gfx\Backdrop.cs" />
     <Compile Include="Source\Gfx\BlinkingLabel.cs" />

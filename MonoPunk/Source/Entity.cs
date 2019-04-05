@@ -33,6 +33,20 @@ namespace MonoPunk
 		{
 		}
 
+		public Entity(EntityData data, float x = 0.0f, float y = 0.0f) : base(x, y)
+		{
+			Name = data.Name;
+			Type = data.Type;
+			Width = data.Width;
+			Height = data.Height;
+			OriginX = data.OriginX;
+			OriginY = data.OriginY;
+		}
+
+		public Entity(EntityData data, Vector2 pos) : this(data, pos.X, pos.Y)
+		{
+		}
+
 		public static Entity CreateBox(int x, int y, int width, int height, int type = -1)
 		{
 			var box = new Entity(x, y);
