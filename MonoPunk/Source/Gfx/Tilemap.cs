@@ -137,10 +137,10 @@ namespace MonoPunk
 
 			var visibleBounds = GetVisibleBounds();
 
-			var startX = ((int)visibleBounds.X) / TileWidth;
+			var startX = Mathf.Max(((int)visibleBounds.X) / TileWidth, 0);
 			var endX = Mathf.Min(startX + ((int)visibleBounds.Width) / TileWidth + 2, Width);
 
-			var startY = ((int)visibleBounds.Y) / TileHeight;
+			var startY = Mathf.Max(((int)visibleBounds.Y) / TileHeight, 0);
 			var endY = Mathf.Min(startY + ((int)visibleBounds.Height) / TileHeight + 2, Height);
 
 			for (var ix = startX; ix < endX; ix++)
