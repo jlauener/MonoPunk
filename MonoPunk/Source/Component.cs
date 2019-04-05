@@ -112,6 +112,19 @@ namespace MonoPunk
 			children.Add(child);
 		}
 
+		public void Add(Component child, float x, float y)
+		{
+			child.X = x;
+			child.Y = y;
+			Add(child);
+		}
+
+		public void Add(Component child, Vector2 pos)
+		{
+			child.Position = pos;
+			Add(child);
+		}
+
 		public void Remove(Component child)
 		{
 			child._Destroy();

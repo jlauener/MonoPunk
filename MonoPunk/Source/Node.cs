@@ -11,6 +11,12 @@ namespace MonoPunk
 			set { position = value; }
 		}
 
+		public void SetPosition(float x, float y)
+		{
+			position.X = x;
+			position.Y = y;
+		}
+
 		public float X
 		{
 			get { return position.X; }
